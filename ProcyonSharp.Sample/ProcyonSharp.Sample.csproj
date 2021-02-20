@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <None Remove="libprocyon.so" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="libprocyon.so">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\ProcyonSharp\runtimes\win-x64\native\procyon.dll" Link="procyon.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ProcyonSharp\ProcyonSharp.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+<!--        <PublishTrimmed>true</PublishTrimmed>-->
+<!--        <PublishSingleFile>true</PublishSingleFile>-->
+<!--        <PublishReadyToRun>true</PublishReadyToRun>-->
+        <AssemblyName>procyon-sample</AssemblyName>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+  </Project>
