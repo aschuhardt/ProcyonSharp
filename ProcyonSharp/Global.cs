@@ -47,23 +47,23 @@ namespace ProcyonSharp
         internal void BeginState<U>() where U : IGameState<T>, new()
         {
             // push a new state onto the stack without calling Load(), because at this point the Window hasn't been assigned yet so Load() must be called after Start()
-            _currentState = GetStateValueFromType<U>();
+            _currentState = GetStateValueFromType(typeof(U));
             _stateStack.Push(new U {Global = this});
         }
 
-        private T GetStateValueFromType<U>()
+        private T GetStateValueFromType(Type stateImplType)
         {
-            var stateAttr = typeof(U).GetCustomAttribute<StateAttribute>();
+            var stateAttr = stateImplType.GetCustomAttribute<StateAttribute>();
             if (stateAttr?.StateEnumValue is not T stateValue)
                 throw new Exception(
-                    $"Cannot push state of type {typeof(U).Name} as it lacks a valid {nameof(StateAttribute)}");
+                    $"Cannot push state of type {stateImplType.Name} as it lacks a valid {nameof(StateAttribute)}");
 
             return stateValue;
         }
 
         public void PushState<U>() where U : IGameState<T>, new()
         {
-            _currentState = GetStateValueFromType<U>();
+            _currentState = GetStateValueFromType(typeof(U));
             var newState = new U {Global = this};
             newState.Load();
             _stateStack.Push(newState);
@@ -74,6 +74,8 @@ namespace ProcyonSharp
             _stateStack.Pop().Unload();
             if (!_stateStack.Any())
                 Window.Close();
+            else
+                _currentState = GetStateValueFromType(_stateStack.Peek().GetType());
         }
 
         /// <summary>
