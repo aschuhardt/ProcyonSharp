@@ -3,16 +3,16 @@
 <package>
   <metadata>
     <id>ProcyonSharp</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>ProcyonSharp</title>
     <authors>Addison Schuhardt</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/aschuhardt/ProcyonSharp</projectUrl>
     <description>NETStandard bindings for my personal roguelike engine.  Includes built-in support for configurable input mapping.</description>
-    <releaseNotes>Added missing logic for setting the current state value after Global.PopState is called</releaseNotes>
+    <releaseNotes>Bug fixes and quality of life improvements</releaseNotes>
     <copyright>Copyright 2021 Addison Schuhardt</copyright>
-    <tags>roguelike engine procyon</tags>
+    <tags>roguelike engine procyon gamedev tui</tags>
     <dependencies>
       <group targetFramework=".NETStandard2.1">
         <dependency id="ProcyonSharp.Attributes" version="1.0.0" />
