@@ -7,7 +7,7 @@ using ProcyonSharp.Bindings.Drawing;
 namespace ProcyonSharp.Sample.States
 {
     [State(GameState.Gameplay)]
-    public class Gameplay : IGameState<GameState>
+    public class Gameplay : GameState<GameState>
     {
         private readonly StringBuilder _enteredText = new("> press enter to toggle text entry");
 
@@ -16,20 +16,14 @@ namespace ProcyonSharp.Sample.States
 
         private (int X, int Y) _playerPosition;
 
-        public Global<GameState> Global { get; set; } = null!;
-
-        public void Load()
+        public override void Load()
         {
             _playerPosition = (100, 100);
             _glyphSize = Global.Window.GlyphSize;
             Global.Window.ClearColor = new Color(0.1f, 0.3f, 0.23f);
         }
 
-        public void Unload()
-        {
-        }
-
-        public void Draw(DrawContext ctx)
+        public override void Draw(DrawContext ctx)
         {
             ctx.DrawChar(_playerPosition.X, _playerPosition.Y, Convert.ToByte('@'), foreColor: _playerGlyphColor);
 

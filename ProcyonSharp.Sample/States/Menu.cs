@@ -5,23 +5,18 @@ using ProcyonSharp.Bindings.Drawing;
 namespace ProcyonSharp.Sample.States
 {
     [State(GameState.Menu)]
-    public class Menu : IGameState<GameState>
+    public class Menu : GameState<GameState>
     {
         private string? _text;
-        public Global<GameState>? Global { get; set; }
 
-        public void Load()
+        public override void Load()
 
         {
             _text = $"Press {Global!.BuildInputDescription(nameof(BeginGameplay))} to continue!";
             Global!.Window.GlyphScale = 1.0f;
         }
 
-        public void Unload()
-        {
-        }
-
-        public void Draw(DrawContext ctx)
+        public override void Draw(DrawContext ctx)
         {
             var (glyphWidth, glyphHeight) = Global!.Window.GlyphSize;
             var (windowWidth, windowHeight) = Global!.Window.Size;
