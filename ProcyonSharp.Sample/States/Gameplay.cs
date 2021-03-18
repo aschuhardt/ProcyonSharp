@@ -16,12 +16,13 @@ namespace ProcyonSharp.Sample.States
 
         private (int X, int Y) _playerPosition;
 
-        public Global<GameState>? Global { get; set; }
+        public Global<GameState> Global { get; set; } = null!;
 
         public void Load()
         {
             _playerPosition = (100, 100);
-            _glyphSize = Global!.Window.GlyphSize;
+            _glyphSize = Global.Window.GlyphSize;
+            Global.Window.ClearColor = new Color(0.1f, 0.3f, 0.23f);
         }
 
         public void Unload()
@@ -32,7 +33,7 @@ namespace ProcyonSharp.Sample.States
         {
             ctx.DrawChar(_playerPosition.X, _playerPosition.Y, Convert.ToByte('@'), foreColor: _playerGlyphColor);
 
-            if (Global!.TextEntryActive)
+            if (Global.TextEntryActive)
                 ctx.DrawString(0, 0, _enteredText, true);
             else
                 ctx.DrawString(0, 0, _enteredText, false, Color.Black, Color.White);
@@ -41,7 +42,7 @@ namespace ProcyonSharp.Sample.States
         [Input(Key.Escape)]
         public void ReturnToMenu()
         {
-            Global!.PopState();
+            Global.PopState();
         }
 
         [Input(Key.Up)]
@@ -75,7 +76,7 @@ namespace ProcyonSharp.Sample.States
         [Input(Key.Enter)]
         public void StartTextEntry()
         {
-            Global!.BeginTextEntry(_enteredText, false, Key.Enter);
+            Global.BeginTextEntry(_enteredText, false, Key.Enter);
         }
     }
 }

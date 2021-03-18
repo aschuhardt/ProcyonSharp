@@ -5,7 +5,7 @@ namespace ProcyonSharp
 {
     public interface IGameState<T> where T : struct, Enum
     {
-        Global<T>? Global { get; set; }
+        Global<T> Global { set; }
 
         void Load();
 
