@@ -33,15 +33,18 @@ namespace ProcyonSharp
             using var window = new Window(width, height, title, this);
             Window = window;
 
-            // now that we have a Window set, the initial state's .Load() can be called without issue
-            _stateStack.Peek().Load();
-
             window.Run();
         }
 
         protected override void OnLoad()
         {
             Window.GlyphScale = 2.0f;
+            
+            // initial state needs to have its .Load() call delayed until this point
+            // so that by the time it's called by the native Window implementation,
+            // it can make changes to the Window that won't be overridden at the start
+            // of the draw loop
+            _stateStack.Peek().Load();
         }
 
         internal void BeginState<U>() where U : IGameState<T>, new()
