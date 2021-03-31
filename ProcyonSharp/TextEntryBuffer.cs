@@ -7,12 +7,12 @@ namespace ProcyonSharp
     internal class TextEntryBuffer
     {
         private const int TabWidth = 4;
+        private readonly bool _allowTab;
 
         private readonly StringBuilder _buffer;
         private readonly Key[] _exitKeys;
-        private readonly bool _multiLine;
         private readonly int _maxLength;
-        private readonly bool _allowTab;
+        private readonly bool _multiLine;
 
         public TextEntryBuffer(StringBuilder buffer, Key[] exitKeys, bool multiLine, int maxLength, bool allowTab)
         {
@@ -30,7 +30,7 @@ namespace ProcyonSharp
         {
             if (_buffer.Length <= 0)
                 return;
-                
+
             const string wordSeparatorChars = " .,!?/'\"\\[]{}+=()`|<>\n";
             // if CTRL is depressed, remove from the end of the buffer until it's empty or until a separator is reached
             do
@@ -73,7 +73,7 @@ namespace ProcyonSharp
         {
             if (!_allowTab)
                 return;
-            
+
             for (var i = 0; i < TabWidth; i++)
                 _buffer.Append(' ');
         }
@@ -82,7 +82,7 @@ namespace ProcyonSharp
         {
             if (_buffer.Length >= _maxLength)
                 return;
-                
+
             _buffer.Append(c);
         }
     }
