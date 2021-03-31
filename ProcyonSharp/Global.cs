@@ -84,7 +84,7 @@ namespace ProcyonSharp
         /// <summary>
         ///     Begin processing text input events, storing new character entries in the provided buffer
         /// </summary>
-        public void BeginTextEntry(StringBuilder buffer, bool multiline = false, bool allowTab = false, 
+        public void BeginTextEntry(StringBuilder buffer, bool multiline = false, bool allowTab = false,
             int maxLength = ushort.MaxValue, params Key[] exitKeys)
         {
             _textEntryBuffer = new TextEntryBuffer(buffer, exitKeys, multiline, maxLength, allowTab);
@@ -137,8 +137,25 @@ namespace ProcyonSharp
                 _stateStack.Peek().Draw(ctx);
         }
 
+        protected override void OnResized(int width, int height)
+        {
+            if (_stateStack.Any())
+                _stateStack.Peek().Resized(width, height);
+        }
+
+        protected override void OnKeyReleased(Key key, KeyMod mod)
+        {
+            if (_stateStack.Any())
+                _stateStack.Peek().KeyReleased(key, mod);
+        }
+
         protected override void OnKeyPressed(Key key, KeyMod mod)
         {
+            if (!_stateStack.Any())
+                return;
+
+            _stateStack.Peek().KeyPressed(key, mod);
+
             // if text is being entered, then we need to handle key inputs differently
             if (TextEntryActive)
             {
@@ -149,9 +166,6 @@ namespace ProcyonSharp
 
                 return;
             }
-
-            if (!_stateStack.Any())
-                return;
 
             if (!_inputFunctions.ContainsKey(_currentState))
                 return; // current state has no input functions

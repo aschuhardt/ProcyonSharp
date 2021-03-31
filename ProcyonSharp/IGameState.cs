@@ -1,4 +1,5 @@
 using System;
+using ProcyonSharp.Bindings;
 using ProcyonSharp.Bindings.Drawing;
 
 namespace ProcyonSharp
@@ -12,5 +13,11 @@ namespace ProcyonSharp
         void Unload();
 
         void Draw(DrawContext ctx);
+
+        void KeyPressed(Key key, KeyMod modifier);
+
+        void KeyReleased(Key key, KeyMod modifier);
+
+        void Resized(int width, int height);
     }
 }

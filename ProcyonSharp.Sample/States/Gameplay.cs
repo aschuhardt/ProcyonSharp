@@ -70,7 +70,7 @@ namespace ProcyonSharp.Sample.States
         [Input(Key.Enter)]
         public void StartTextEntry()
         {
-            Global.BeginTextEntry(_enteredText, false, Key.Enter);
+            Global.BeginTextEntry(_enteredText, false, exitKeys: Key.Enter);
         }
     }
 }
