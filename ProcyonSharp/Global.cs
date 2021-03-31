@@ -39,7 +39,7 @@ namespace ProcyonSharp
         protected override void OnLoad()
         {
             Window.GlyphScale = 2.0f;
-            
+
             // initial state needs to have its .Load() call delayed until this point
             // so that by the time it's called by the native Window implementation,
             // it can make changes to the Window that won't be overridden at the start
@@ -84,7 +84,8 @@ namespace ProcyonSharp
         /// <summary>
         ///     Begin processing text input events, storing new character entries in the provided buffer
         /// </summary>
-        public void BeginTextEntry(StringBuilder buffer, bool multiline = false, params Key[] exitKeys)
+        public void BeginTextEntry(StringBuilder buffer, bool multiline = false, bool allowTab = false, 
+            int maxLength = ushort.MaxValue, params Key[] exitKeys)
         {
             _textEntryBuffer = new TextEntryBuffer(buffer, exitKeys, multiline);
         }
