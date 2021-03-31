@@ -87,7 +87,7 @@ namespace ProcyonSharp
         public void BeginTextEntry(StringBuilder buffer, bool multiline = false, bool allowTab = false, 
             int maxLength = ushort.MaxValue, params Key[] exitKeys)
         {
-            _textEntryBuffer = new TextEntryBuffer(buffer, exitKeys, multiline);
+            _textEntryBuffer = new TextEntryBuffer(buffer, exitKeys, multiline, maxLength, allowTab);
         }
 
         /// <summary>
