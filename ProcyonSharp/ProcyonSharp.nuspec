@@ -3,14 +3,14 @@
 <package>
   <metadata>
     <id>ProcyonSharp</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <title>ProcyonSharp</title>
     <authors>Addison Schuhardt</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/aschuhardt/ProcyonSharp</projectUrl>
     <description>NETStandard bindings for my personal roguelike engine.  Includes built-in support for configurable input mapping.</description>
-    <releaseNotes>Bug fixes and quality of life improvements</releaseNotes>
+    <releaseNotes>Bug fixes, minor additions to text-entry handling, and exposing window events to GameState implementations</releaseNotes>
     <copyright>Copyright 2021 Addison Schuhardt</copyright>
     <tags>roguelike engine procyon gamedev tui</tags>
     <dependencies>
