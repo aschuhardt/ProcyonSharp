@@ -71,7 +71,7 @@ namespace ProcyonSharp
 
         private void HandleTab()
         {
-            if (!_allowTab)
+            if (!_allowTab || _buffer.Length + TabWidth > _maxLength)
                 return;
 
             for (var i = 0; i < TabWidth; i++)
