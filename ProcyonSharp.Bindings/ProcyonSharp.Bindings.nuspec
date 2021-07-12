@@ -3,18 +3,18 @@
 <package>
   <metadata>
     <id>ProcyonSharp.Bindings</id>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <title>ProcyonSharp.Bindings</title>
     <authors>Addison Schuhardt</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/aschuhardt/ProcyonSharp</projectUrl>
     <description>P/Invoke code for ProcyonSharp</description>
-    <releaseNotes>Initial release</releaseNotes>
+    <releaseNotes>Adding support for sprite rendering and other cleanup alongside 1.1.0 project release</releaseNotes>
     <copyright>Copyright 2021 Addison Schuhardt</copyright>
     <tags />
   </metadata>
   <files>
-    <file src="bin\$configuration$\netstandard2.1\ProcyonSharp.Bindings.dll" target="lib\netstandard2.1\" />
+    <file src="bin\$configuration$\net5.0\ProcyonSharp.Bindings.dll" target="lib\net5.0\" />
   </files>
 </package>

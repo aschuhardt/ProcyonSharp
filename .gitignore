@@ -3,5 +3,5 @@ bin/
 build/
 .idea/
 *.nupkg
-.vs/ 
- 
+.vs/
+.editorconfig

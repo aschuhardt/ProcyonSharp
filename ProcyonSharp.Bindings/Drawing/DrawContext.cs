@@ -27,14 +27,14 @@ namespace ProcyonSharp.Bindings.Drawing
         /// <param name="bold">Whether or not the string should be printed using a bold typeface (default = false)</param>
         /// <param name="foreColor">The color of the text glyphs (default = <see cref="Color.White" />)</param>
         /// <param name="backColor">The color of the text's background (default = <see cref="Color.Black" />)</param>
-        public void DrawString(int x, int y, StringBuilder contents, bool bold = false, Color? foreColor = null,
-            Color? backColor = null)
+        public void DrawString(short x, short y, StringBuilder contents, bool bold = false, in Color? foreColor = null,
+            in Color? backColor = null)
         {
             if (bold)
-                DrawStringBold(_window.NativePtr, x, y, foreColor.GetValueOrDefault(Color.White),
+                DrawStringBold(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
                     backColor.GetValueOrDefault(Color.Black), contents);
             else
-                DrawString(_window.NativePtr, x, y, foreColor.GetValueOrDefault(Color.White),
+                DrawString(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
                     backColor.GetValueOrDefault(Color.Black), contents);
         }
 
@@ -47,14 +47,14 @@ namespace ProcyonSharp.Bindings.Drawing
         /// <param name="bold">Whether or not the string should be printed using a bold typeface (default = false)</param>
         /// <param name="foreColor">The color of the text glyphs (default = <see cref="Color.White" />)</param>
         /// <param name="backColor">The color of the text's background (default = <see cref="Color.Black" />)</param>
-        public void DrawString(int x, int y, string contents, bool bold = false, Color? foreColor = null,
-            Color? backColor = null)
+        public void DrawString(short x, short y, string contents, bool bold = false, in Color? foreColor = null,
+            in Color? backColor = null)
         {
             if (bold)
-                DrawStringBold(_window.NativePtr, x, y, foreColor.GetValueOrDefault(Color.White),
+                DrawStringBold(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
                     backColor.GetValueOrDefault(Color.Black), contents);
             else
-                DrawString(_window.NativePtr, x, y, foreColor.GetValueOrDefault(Color.White),
+                DrawString(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
                     backColor.GetValueOrDefault(Color.Black), contents);
         }
 
@@ -67,13 +67,14 @@ namespace ProcyonSharp.Bindings.Drawing
         /// <param name="bold">Whether or not the string should be printed using a bold typeface (default = false)</param>
         /// <param name="foreColor">The color of the text glyphs (default = <see cref="Color.White" />)</param>
         /// <param name="backColor">The color of the text's background (default = <see cref="Color.Black" />)</param>
-        public void DrawChar(int x, int y, byte c, bool bold = false, Color? foreColor = null, Color? backColor = null)
+        public void DrawChar(short x, short y, byte c, bool bold = false, in Color? foreColor = null,
+            in Color? backColor = null)
         {
             if (bold)
-                DrawCharBold(_window.NativePtr, x, y, foreColor.GetValueOrDefault(Color.White),
+                DrawCharBold(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
                     backColor.GetValueOrDefault(Color.Black), c);
             else
-                DrawChar(_window.NativePtr, x, y, foreColor.GetValueOrDefault(Color.White),
+                DrawChar(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
                     backColor.GetValueOrDefault(Color.Black), c);
         }
 
@@ -85,9 +86,9 @@ namespace ProcyonSharp.Bindings.Drawing
         /// <param name="width">The width of the rectangle in pixels</param>
         /// <param name="height">The height of the rectangle in pixels</param>
         /// <param name="color">The color of the rectangle (default = <see cref="Color.White" />)</param>
-        public void DrawRect(int x, int y, int width, int height, Color? color = null)
+        public void DrawRect(short x, short y, short width, short height, in Color? color = null)
         {
-            DrawRect(_window.NativePtr, x, y, width, height, color.GetValueOrDefault(Color.White));
+            DrawRect(_window.Pointer, x, y, width, height, color.GetValueOrDefault(Color.White));
         }
 
         /// <summary>
@@ -98,41 +99,55 @@ namespace ProcyonSharp.Bindings.Drawing
         /// <param name="x2">The X-coordinate in pixels of the second point</param>
         /// <param name="y2">The Y-coordinate in pixels of the second point</param>
         /// <param name="color">The color of the line (default = <see cref="Color.White" />)</param>
-        public void DrawLine(int x1, int y1, int x2, int y2, Color? color = null)
+        public void DrawLine(short x1, short y1, short x2, short y2, in Color? color = null)
         {
-            DrawLine(_window.NativePtr, x1, y1, x2, y2, color.GetValueOrDefault(Color.White));
+            DrawLine(_window.Pointer, x1, y1, x2, y2, color.GetValueOrDefault(Color.White));
         }
 
+        /// <summary>
+        ///     Draws a sprite
+        /// </summary>
+        /// <param name="sprite">The sprite to be drawn</param>
+        /// <param name="x">The X-coordinate in pixels of the top-left position of the sprite</param>
+        /// <param name="y">The Y-coordinate in pixels of the top-left position of the sprite</param>
+        public void DrawSprite(Sprite sprite, short x, short y)
+        {
+            DrawSprite(_window.Pointer, x, y, sprite.ForeColor, sprite.BackColor, sprite.Pointer);
+        }
+
+        [DllImport("procyon", EntryPoint = "procy_draw_sprite")]
+        private static extern void DrawSprite(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
+            IntPtr sprite);
 
         [DllImport("procyon", EntryPoint = "procy_draw_string")]
-        private static extern void DrawString(IntPtr windowPtr, int x, int y, Color foreColor, Color backColor,
+        private static extern void DrawString(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
             [MarshalAs(UnmanagedType.LPStr)] StringBuilder contents);
 
         [DllImport("procyon", EntryPoint = "procy_draw_string")]
-        private static extern void DrawString(IntPtr windowPtr, int x, int y, Color foreColor, Color backColor,
+        private static extern void DrawString(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
             [MarshalAs(UnmanagedType.LPStr)] string contents);
 
         [DllImport("procyon", EntryPoint = "procy_draw_string_bold")]
-        private static extern void DrawStringBold(IntPtr windowPtr, int x, int y, Color foreColor, Color backColor,
+        private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
             [MarshalAs(UnmanagedType.LPStr)] StringBuilder contents);
 
 
         [DllImport("procyon", EntryPoint = "procy_draw_string_bold")]
-        private static extern void DrawStringBold(IntPtr windowPtr, int x, int y, Color foreColor, Color backColor,
+        private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
             [MarshalAs(UnmanagedType.LPStr)] string contents);
 
         [DllImport("procyon", EntryPoint = "procy_draw_char")]
-        private static extern void DrawChar(IntPtr windowPtr, int x, int y, Color foreColor, Color backColor,
+        private static extern void DrawChar(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
             byte codepoint);
 
         [DllImport("procyon", EntryPoint = "procy_draw_char_bold")]
-        private static extern void DrawCharBold(IntPtr windowPtr, int x, int y, Color foreColor, Color backColor,
+        private static extern void DrawCharBold(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
             byte codepoint);
 
         [DllImport("procyon", EntryPoint = "procy_draw_rect")]
-        private static extern void DrawRect(IntPtr windowPtr, int x, int y, int width, int height, Color color);
+        private static extern void DrawRect(IntPtr windowPtr, short x, short y, short width, short height, Color color);
 
         [DllImport("procyon", EntryPoint = "procy_draw_line")]
-        private static extern void DrawLine(IntPtr windowPtr, int x1, int y1, int x2, int y2, Color color);
+        private static extern void DrawLine(IntPtr windowPtr, short x1, short y1, short x2, short y2, Color color);
     }
 }

@@ -13,15 +13,15 @@ using ProcyonSharp.Bindings.Drawing;
 
 namespace ProcyonSharp
 {
-    public static class Game
+    public static class Procyon
     {
-        public static Global<T> Create<T, U>()
+        public static Engine<T> Create<T, U>()
             where T : struct, Enum
             where U : IGameState<T>, new()
         {
-            var globalState = new Global<T>();
-            globalState.BeginState<U>();
-            return globalState;
+            var engine = new Engine<T>();
+            engine.InitialState<U>();
+            return engine;
         }
     }
 }

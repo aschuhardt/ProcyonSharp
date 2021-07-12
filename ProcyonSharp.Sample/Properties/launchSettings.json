@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProcyonSharp.Sample": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

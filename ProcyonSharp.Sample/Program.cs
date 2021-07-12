@@ -6,7 +6,7 @@ namespace ProcyonSharp.Sample
     {
         private static void Main()
         {
-            using var state = Game.Create<GameState, Menu>();
+            using var state = Procyon.Create<SampleState, Menu>();
             state.Start(800, 600, "SuruliaSharp");
         }
     }

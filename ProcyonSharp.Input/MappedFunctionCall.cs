@@ -4,14 +4,14 @@ using YamlDotNet.Serialization;
 
 namespace ProcyonSharp.Input
 {
-    public class MappedFunctionCall<T>
+    public class MappedFunctionCall
     {
         public MappedFunctionCall()
         {
             FunctionCall = new Action(() => { });
         }
 
-        [YamlMember(Alias = "name")] public string? FunctionName { get; set; }
+        [YamlMember(Alias = "name")] public string FunctionName { get; set; }
 
         public Key Key { get; set; }
         public bool Ctrl { get; set; }

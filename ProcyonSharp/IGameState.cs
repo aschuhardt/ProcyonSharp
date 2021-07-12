@@ -6,7 +6,7 @@ namespace ProcyonSharp
 {
     public interface IGameState<T> where T : struct, Enum
     {
-        Global<T> Global { set; }
+        Engine<T> Engine { set; }
 
         void Load();
 

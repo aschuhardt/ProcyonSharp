@@ -25,16 +25,16 @@ namespace ProcyonSharp.Input.Serialization
                 output.WriteLine(key);
         }
 
-        public static IDictionary<T, GameStateInputFunctionKeyMap<U>> Load<T, U>()
+        public static IDictionary<T, GameStateInputFunctionKeyMap> Load<T>()
             where T : Enum
         {
             if (!File.Exists(InputMapFilename))
-                SaveDefault<T, U>();
+                SaveDefault<T>();
 
-            var configuredInputStateGroups = DeserializeInputMapFile<T, U>();
+            var configuredInputStateGroups = DeserializeInputMapFile<T>();
             var stateTypesByStateValue = GetStateTypesByStateValue<T>();
 
-            var inputStates = new Dictionary<T, GameStateInputFunctionKeyMap<U>>();
+            var inputStates = new Dictionary<T, GameStateInputFunctionKeyMap>();
             foreach (var configuredInputStateGroup in configuredInputStateGroups)
             {
                 var stateValue = configuredInputStateGroup.State;
@@ -54,11 +54,11 @@ namespace ProcyonSharp.Input.Serialization
             return inputStates;
         }
 
-        private static GameStateInputFunctionKeyMap<U> BuildInputState<T, U>(
-            SerializedGameStateInput<T, U> configuredInputSerializedGameState,
+        private static GameStateInputFunctionKeyMap BuildInputState<T>(
+            SerializedGameStateInput<T> configuredInputSerializedGameState,
             IReadOnlyDictionary<string, MethodInfo> inputFunctionsByName) where T : Enum
         {
-            var keyMap = new GameStateInputFunctionKeyMap<U>();
+            var keyMap = new GameStateInputFunctionKeyMap();
 
             if (configuredInputSerializedGameState.Functions == null)
                 return keyMap;
@@ -80,7 +80,7 @@ namespace ProcyonSharp.Input.Serialization
                     inputFunc.CreateDelegate(typeof(Action<>).MakeGenericType(inputFunc.DeclaringType));
 
                 if (!keyMap.Functions.ContainsKey(configuredInputFunction.Key))
-                    keyMap.Functions.Add(configuredInputFunction.Key, new List<MappedFunctionCall<U>>());
+                    keyMap.Functions.Add(configuredInputFunction.Key, new List<MappedFunctionCall>());
 
                 keyMap.Functions[configuredInputFunction.Key].Add(configuredInputFunction);
             }
@@ -88,19 +88,19 @@ namespace ProcyonSharp.Input.Serialization
             return keyMap;
         }
 
-        private static void SaveDefault<T, U>() where T : Enum
+        private static void SaveDefault<T>() where T : Enum
         {
             var gameStateTypes = GetStateTypesByStateValue<T>();
-            var defaultInputConfiguration = new List<SerializedGameStateInput<T, U>>(gameStateTypes.Count);
+            var defaultInputConfiguration = new List<SerializedGameStateInput<T>>(gameStateTypes.Count);
             foreach (var stateType in gameStateTypes)
             {
-                var mappedFunctions = new List<MappedFunctionCall<U>>();
+                var mappedFunctions = new List<MappedFunctionCall>();
                 foreach (var method in stateType.Value.GetMethods()
                     .Where(m => m.GetCustomAttributes<InputAttribute>().Any()))
                 foreach (var inputFuncDesc in method.GetCustomAttributes<InputAttribute>())
                 {
                     var mod = inputFuncDesc.DefaultModifier;
-                    mappedFunctions.Add(new MappedFunctionCall<U>
+                    mappedFunctions.Add(new MappedFunctionCall
                     {
                         FunctionName = method.Name,
                         Key = inputFuncDesc.DefaultKey,
@@ -110,7 +110,7 @@ namespace ProcyonSharp.Input.Serialization
                     });
                 }
 
-                defaultInputConfiguration.Add(new SerializedGameStateInput<T, U>
+                defaultInputConfiguration.Add(new SerializedGameStateInput<T>
                 {
                     Functions = mappedFunctions.ToArray(),
                     State = stateType.Key
@@ -127,14 +127,14 @@ namespace ProcyonSharp.Input.Serialization
             WriteAvailableInputKeysFile();
         }
 
-        private static IEnumerable<SerializedGameStateInput<T, U>> DeserializeInputMapFile<T, U>() where T : Enum
+        private static IEnumerable<SerializedGameStateInput<T>> DeserializeInputMapFile<T>() where T : Enum
         {
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(UnderscoredNamingConvention.Instance)
                 .Build();
 
             var modeInputGroups =
-                deserializer.Deserialize<SerializedGameStateInput<T, U>[]>(File.ReadAllText(InputMapFilename));
+                deserializer.Deserialize<SerializedGameStateInput<T>[]>(File.ReadAllText(InputMapFilename));
             return modeInputGroups;
         }
 

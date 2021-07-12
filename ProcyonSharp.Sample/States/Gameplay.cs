@@ -6,28 +6,35 @@ using ProcyonSharp.Bindings.Drawing;
 
 namespace ProcyonSharp.Sample.States
 {
-    [State(GameState.Gameplay)]
-    public class Gameplay : GameState<GameState>
+    [State(SampleState.Gameplay)]
+    public class Gameplay : GameState<SampleState>
     {
         private readonly StringBuilder _enteredText = new("> press enter to toggle text entry");
 
         private readonly Color _playerGlyphColor = new(1.0f, 1.0f, 0.01f);
         private (int Width, int Height) _glyphSize;
-
         private (int X, int Y) _playerPosition;
+        private Sprite _cobblestone;
 
         public override void Load()
         {
+            _cobblestone = new SpriteSheet(Engine.Window, "cobblestone.png").CreateSprite(0, 0, 16, 16);
             _playerPosition = (100, 100);
-            _glyphSize = Global.Window.GlyphSize;
-            Global.Window.ClearColor = new Color(0.1f, 0.3f, 0.23f);
+            _glyphSize = Engine.Window.GlyphSize;
+            Engine.Window.ClearColor = new Color(0.1f, 0.3f, 0.23f);
         }
 
         public override void Draw(DrawContext ctx)
         {
-            ctx.DrawChar(_playerPosition.X, _playerPosition.Y, Convert.ToByte('@'), foreColor: _playerGlyphColor);
+            var (windowWidth, windowHeight) = Engine.Window.Size;
+            var (spriteWidth, spriteHeight) = _cobblestone.Size;
+            for (var i = 0; i < windowWidth / spriteWidth; i++)
+                ctx.DrawSprite(_cobblestone, (short)(i * spriteWidth), (short)(windowHeight - spriteHeight));
 
-            if (Global.TextEntryActive)
+            ctx.DrawChar((short)_playerPosition.X, (short)_playerPosition.Y, Convert.ToByte('@'),
+                foreColor: _playerGlyphColor);
+
+            if (Engine.TextEntryActive)
                 ctx.DrawString(0, 0, _enteredText, true);
             else
                 ctx.DrawString(0, 0, _enteredText, false, Color.Black, Color.White);
@@ -36,7 +43,7 @@ namespace ProcyonSharp.Sample.States
         [Input(Key.Escape)]
         public void ReturnToMenu()
         {
-            Global.PopState();
+            Engine.PopState();
         }
 
         [Input(Key.Up)]
@@ -70,7 +77,7 @@ namespace ProcyonSharp.Sample.States
         [Input(Key.Enter)]
         public void StartTextEntry()
         {
-            Global.BeginTextEntry(_enteredText, false, exitKeys: Key.Enter, allowTab: true, maxLength: 16);
+            Engine.BeginTextEntry(_enteredText, false, exitKeys: Key.Enter, allowTab: true, maxLength: 16);
         }
     }
 }

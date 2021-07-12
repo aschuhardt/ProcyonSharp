@@ -17,7 +17,7 @@ namespace ProcyonSharp.Bindings
     /// <summary>
     ///     Represents the state of modifier keys held during a key press/release input event
     /// </summary>
-    public readonly struct KeyMod
+    public class KeyMod
     {
         public KeyMod(bool shift, bool control, bool alt)
         {
@@ -45,13 +45,12 @@ namespace ProcyonSharp.Bindings
     /// <summary>
     ///     The base type representing a game state object which defines behavior for handling events
     /// </summary>
-    public abstract class State : IDisposable
+    public abstract class NativeEventHandler : NativeObject
     {
-        internal readonly IntPtr NativePtr;
-        private DrawContext? _drawContext;
-        private Window? _window;
+        private DrawContext _drawContext;
+        private Window _window;
 
-        protected State()
+        protected NativeEventHandler()
         {
             _nativeLoadCallback = OnNativeLoad;
             _nativeUnloadCallback = OnNativeUnload;
@@ -60,7 +59,7 @@ namespace ProcyonSharp.Bindings
             _nativeKeyPressedCallback = OnNativeKeyPressed;
             _nativeKeyReleasedCallback = OnNativeKeyReleased;
             _nativeCharEnteredCallback = OnNativeCharacterEntered;
-            NativePtr = CreateCallbackState(_nativeLoadCallback, _nativeUnloadCallback, _nativeDrawCallback,
+            Pointer = CreateCallbackState(_nativeLoadCallback, _nativeUnloadCallback, _nativeDrawCallback,
                 _nativeResizedCallback, _nativeKeyPressedCallback, _nativeKeyReleasedCallback,
                 _nativeCharEnteredCallback);
         }
@@ -75,10 +74,9 @@ namespace ProcyonSharp.Bindings
             }
         }
 
-        public void Dispose()
+        protected override void Cleanup()
         {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
+            DestroyCallbackState(Pointer);
         }
 
         [DllImport("procyon", EntryPoint = "procy_create_callback_state")]
@@ -108,6 +106,7 @@ namespace ProcyonSharp.Bindings
         /// <summary>
         ///     Called each time the window is re-drawn
         /// </summary>
+        /// <param name="ctx">Provides drawing functionality</param>
         /// <param name="time">The duration, in seconds, since the last time <see cref="OnDraw" /> was called</param>
         protected virtual void OnDraw(DrawContext ctx, double time)
         {
@@ -182,16 +181,6 @@ namespace ProcyonSharp.Bindings
         private void OnNativeCharacterEntered(IntPtr _, uint c)
         {
             OnCharacterEntered((char) (0x0000ff & c));
-        }
-
-        private void ReleaseUnmanagedResources()
-        {
-            DestroyCallbackState(NativePtr);
-        }
-
-        ~State()
-        {
-            ReleaseUnmanagedResources();
         }
 
         private delegate void OnNativeLoadCallback(IntPtr _);

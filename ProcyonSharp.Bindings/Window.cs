@@ -1,23 +1,19 @@
 using System;
 using System.Runtime.InteropServices;
-using System.Security;
 using System.Text;
 using ProcyonSharp.Bindings.Drawing;
 
 namespace ProcyonSharp.Bindings
 {
-    [SuppressUnmanagedCodeSecurity]
-    public class Window : IDisposable
+    public class Window : NativeObject
     {
-        internal readonly IntPtr NativePtr;
         private bool _highFpsMode;
 
         private float _scale;
 
-        public Window(int width, int height, string title, State state, float scale = 1.0f)
+        public Window(int width, int height, string title, NativeEventHandler nativeEventHandler)
         {
-            NativePtr = CreateWindow(width, height, new StringBuilder(title), scale,
-                state.NativePtr);
+            Pointer = CreateWindow(width, height, new StringBuilder(title), nativeEventHandler.Pointer);
             _scale = 1.0f;
             _highFpsMode = false;
         }
@@ -27,12 +23,14 @@ namespace ProcyonSharp.Bindings
             get
             {
                 int width = 0, height = 0;
-                GetWindowSize(NativePtr, ref width, ref height);
+                GetWindowSize(Pointer, ref width, ref height);
                 return (width, height);
             }
         }
 
+#pragma warning disable CA1822 // Mark members as static
         public Color ClearColor
+#pragma warning restore CA1822 // Mark members as static
         {
             set => SetClearColor(value);
         }
@@ -42,7 +40,7 @@ namespace ProcyonSharp.Bindings
             get
             {
                 int width = 0, height = 0;
-                GetGlyphSize(NativePtr, ref width, ref height);
+                GetGlyphSize(Pointer, ref width, ref height);
                 return (width, height);
             }
         }
@@ -53,7 +51,7 @@ namespace ProcyonSharp.Bindings
             set
             {
                 _scale = value;
-                SetGlyphScale(NativePtr, _scale);
+                SetGlyphScale(Pointer, _scale);
             }
         }
 
@@ -63,29 +61,27 @@ namespace ProcyonSharp.Bindings
             set
             {
                 _highFpsMode = value;
-                SetHighFpsMode(NativePtr, _highFpsMode);
+                SetHighFpsMode(Pointer, _highFpsMode);
             }
         }
 
-        public void Dispose()
+        public void ResetScale()
         {
-            ReleaseUnmanagedResources();
-            GC.SuppressFinalize(this);
+            ResetScale(Pointer);
         }
 
         public void Run()
         {
-            BeginLoop(NativePtr);
+            BeginLoop(Pointer);
         }
 
         public void Close()
         {
-            CloseWindow(NativePtr);
+            CloseWindow(Pointer);
         }
 
         [DllImport("procyon", EntryPoint = "procy_create_window")]
-        private static extern IntPtr CreateWindow(int width, int height, StringBuilder title, float scale,
-            IntPtr state);
+        private static extern IntPtr CreateWindow(int width, int height, StringBuilder title, IntPtr state);
 
         [DllImport("procyon", EntryPoint = "procy_destroy_window")]
         private static extern void DestroyWindow(IntPtr window);
@@ -108,17 +104,15 @@ namespace ProcyonSharp.Bindings
         [DllImport("procyon", EntryPoint = "procy_get_glyph_size")]
         private static extern void GetGlyphSize(IntPtr window, ref int width, ref int height);
 
-        [DllImport("procyon", EntryPoint = "procy_set_glyph_scale")]
+        [DllImport("procyon", EntryPoint = "procy_set_scale")]
         private static extern void SetGlyphScale(IntPtr window, float scale);
 
-        private void ReleaseUnmanagedResources()
-        {
-            DestroyWindow(NativePtr);
-        }
+        [DllImport("procyon", EntryPoint = "procy_reset_scale")]
+        private static extern void ResetScale(IntPtr window);
 
-        ~Window()
+        protected override void Cleanup()
         {
-            ReleaseUnmanagedResources();
+            DestroyWindow(Pointer);
         }
     }
 }

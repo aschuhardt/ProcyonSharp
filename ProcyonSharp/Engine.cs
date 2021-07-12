@@ -11,19 +11,19 @@ using ProcyonSharp.Input.Serialization;
 
 namespace ProcyonSharp
 {
-    public class Global<T> : State where T : struct, Enum
+    public class Engine<T> : NativeEventHandler where T : struct, Enum
     {
-        private readonly IDictionary<T, GameStateInputFunctionKeyMap<IGameState<T>>> _inputFunctions;
+        private readonly IDictionary<T, GameStateInputFunctionKeyMap> _inputFunctions;
         private readonly Stack<IGameState<T>> _stateStack;
 
         private T _currentState;
-        private TextEntryBuffer? _textEntryBuffer;
+        private TextEntryBuffer _textEntryBuffer;
 
-        internal Global()
+        internal Engine()
         {
             _stateStack = new Stack<IGameState<T>>();
             _textEntryBuffer = null;
-            _inputFunctions = InputFileHelper.Load<T, IGameState<T>>();
+            _inputFunctions = InputFileHelper.Load<T>();
         }
 
         public bool TextEntryActive => _textEntryBuffer != null;
@@ -47,14 +47,14 @@ namespace ProcyonSharp
             _stateStack.Peek().Load();
         }
 
-        internal void BeginState<U>() where U : IGameState<T>, new()
+        internal void InitialState<U>() where U : IGameState<T>, new()
         {
             // push a new state onto the stack without calling Load(), because at this point the Window hasn't been assigned yet so Load() must be called after Start()
             _currentState = GetStateValueFromType(typeof(U));
-            _stateStack.Push(new U {Global = this});
+            _stateStack.Push(new U {Engine = this});
         }
 
-        private T GetStateValueFromType(Type stateImplType)
+        private static T GetStateValueFromType(MemberInfo stateImplType)
         {
             var stateAttr = stateImplType.GetCustomAttribute<StateAttribute>();
             if (stateAttr?.StateEnumValue is not T stateValue)
@@ -67,7 +67,7 @@ namespace ProcyonSharp
         public void PushState<U>() where U : IGameState<T>, new()
         {
             _currentState = GetStateValueFromType(typeof(U));
-            var newState = new U {Global = this};
+            var newState = new U {Engine = this};
             newState.Load();
             _stateStack.Push(newState);
         }
