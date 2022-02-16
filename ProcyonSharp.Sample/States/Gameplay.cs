@@ -12,7 +12,7 @@ public class Gameplay : GameState<SampleState>
 {
     private readonly StringBuilder _enteredText = new("> press enter to toggle text entry");
 
-    private readonly Color _playerGlyphColor = new(1.0f, 1.0f, 0.01f);
+    private readonly Color _playerGlyphColor = Color.FromRgb(255, 255, 0);
     private Sprite _cobblestone;
     private (int Width, int Height) _glyphSize;
     private (int X, int Y) _playerPosition;
@@ -22,7 +22,7 @@ public class Gameplay : GameState<SampleState>
         _cobblestone = new SpriteSheet(Engine.Window, "cobblestone.png").CreateSprite(0, 0, 16, 16);
         _playerPosition = (100, 100);
         _glyphSize = Engine.Window.GlyphSize;
-        Engine.Window.ClearColor = new Color(0.1f, 0.3f, 0.23f);
+        Engine.Window.ClearColor = Color.FromRgb(0.1f, 0.3f, 0.23f);
     }
 
     public override void Draw(DrawContext ctx)

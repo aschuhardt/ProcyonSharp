@@ -13,8 +13,17 @@ public class DrawContext
 {
     private readonly Window _window;
 
+    public int Layer
+    {
+        get => _layer;
+        set => _layer = (short)(value % short.MaxValue);
+    }
+
+    private short _layer;
+
     internal DrawContext(Window window)
     {
+        Layer = 1;
         _window = window;
     }
 
@@ -31,10 +40,10 @@ public class DrawContext
         in Color? backColor = null)
     {
         if (bold)
-            DrawStringBold(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
+            DrawStringBold(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White),
                 backColor.GetValueOrDefault(Color.Black), contents);
         else
-            DrawString(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
+            DrawString(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White),
                 backColor.GetValueOrDefault(Color.Black), contents);
     }
 
@@ -51,10 +60,10 @@ public class DrawContext
         in Color? backColor = null)
     {
         if (bold)
-            DrawStringBold(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
+            DrawStringBold(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White),
                 backColor.GetValueOrDefault(Color.Black), contents);
         else
-            DrawString(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
+            DrawString(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White),
                 backColor.GetValueOrDefault(Color.Black), contents);
     }
 
@@ -71,10 +80,10 @@ public class DrawContext
         in Color? backColor = null)
     {
         if (bold)
-            DrawCharBold(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
+            DrawCharBold(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White),
                 backColor.GetValueOrDefault(Color.Black), c);
         else
-            DrawChar(_window.Pointer, x, y, foreColor.GetValueOrDefault(Color.White),
+            DrawChar(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White),
                 backColor.GetValueOrDefault(Color.Black), c);
     }
 
@@ -88,7 +97,7 @@ public class DrawContext
     /// <param name="color">The color of the rectangle (default = <see cref="Color.White" />)</param>
     public void DrawRect(short x, short y, short width, short height, in Color? color = null)
     {
-        DrawRect(_window.Pointer, x, y, width, height, color.GetValueOrDefault(Color.White));
+        DrawRect(_window.Pointer, x, y, _layer, width, height, color.GetValueOrDefault(Color.White));
     }
 
     /// <summary>
@@ -101,7 +110,7 @@ public class DrawContext
     /// <param name="color">The color of the line (default = <see cref="Color.White" />)</param>
     public void DrawLine(short x1, short y1, short x2, short y2, in Color? color = null)
     {
-        DrawLine(_window.Pointer, x1, y1, x2, y2, color.GetValueOrDefault(Color.White));
+        DrawLine(_window.Pointer, x1, y1, x2, y2, _layer, color.GetValueOrDefault(Color.White));
     }
 
     /// <summary>
@@ -112,41 +121,41 @@ public class DrawContext
     /// <param name="y">The Y-coordinate in pixels of the top-left position of the sprite</param>
     public void DrawSprite(Sprite sprite, short x, short y)
     {
-        DrawSprite(_window.Pointer, x, y, sprite.ForeColor, sprite.BackColor, sprite.Pointer);
+        DrawSprite(_window.Pointer, x, y, _layer, sprite.ForeColor, sprite.BackColor, sprite.Pointer);
     }
 
     [DllImport("procyon", EntryPoint = "procy_draw_sprite")]
-    private static extern void DrawSprite(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
+    private static extern void DrawSprite(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
         IntPtr sprite);
 
     [DllImport("procyon", EntryPoint = "procy_draw_string")]
-    private static extern void DrawString(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
-        [MarshalAs(UnmanagedType.LPStr)] StringBuilder contents);
+    private static extern void DrawString(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+        StringBuilder contents);
 
     [DllImport("procyon", EntryPoint = "procy_draw_string")]
-    private static extern void DrawString(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
-        [MarshalAs(UnmanagedType.LPStr)] string contents);
+    private static extern void DrawString(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+        string contents);
 
     [DllImport("procyon", EntryPoint = "procy_draw_string_bold")]
-    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
-        [MarshalAs(UnmanagedType.LPStr)] StringBuilder contents);
+    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+        StringBuilder contents);
 
 
     [DllImport("procyon", EntryPoint = "procy_draw_string_bold")]
-    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
-        [MarshalAs(UnmanagedType.LPStr)] string contents);
+    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+        string contents);
 
     [DllImport("procyon", EntryPoint = "procy_draw_char")]
-    private static extern void DrawChar(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
+    private static extern void DrawChar(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
         byte codepoint);
 
     [DllImport("procyon", EntryPoint = "procy_draw_char_bold")]
-    private static extern void DrawCharBold(IntPtr windowPtr, short x, short y, Color foreColor, Color backColor,
+    private static extern void DrawCharBold(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
         byte codepoint);
 
     [DllImport("procyon", EntryPoint = "procy_draw_rect")]
-    private static extern void DrawRect(IntPtr windowPtr, short x, short y, short width, short height, Color color);
+    private static extern void DrawRect(IntPtr windowPtr, short x, short y, short z, short width, short height, Color color);
 
     [DllImport("procyon", EntryPoint = "procy_draw_line")]
-    private static extern void DrawLine(IntPtr windowPtr, short x1, short y1, short x2, short y2, Color color);
+    private static extern void DrawLine(IntPtr windowPtr, short x1, short y1, short x2, short y2, short z, Color color);
 }

@@ -31,5 +31,5 @@ public class SpriteSheet : NativeObject
     }
 
     [DllImport("procyon", EntryPoint = "procy_load_sprite_shader")]
-    private static extern IntPtr LoadSpriteShader(IntPtr window, [MarshalAs(UnmanagedType.LPStr)] string path);
+    private static extern IntPtr LoadSpriteShader(IntPtr window, string path);
 }

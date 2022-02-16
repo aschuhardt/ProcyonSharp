@@ -120,6 +120,7 @@ public static class InputFileHelper
         using var outputFile = File.Create(InputMapFilename);
         using var outputWriter = new StreamWriter(outputFile);
         new SerializerBuilder()
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
             .Build()
             .Serialize(outputWriter, defaultInputConfiguration.ToArray());

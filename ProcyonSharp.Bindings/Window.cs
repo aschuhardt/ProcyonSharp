@@ -51,7 +51,7 @@ public class Window : NativeObject
         set
         {
             _scale = value;
-            SetGlyphScale(Pointer, _scale);
+            SetGlyphScale(Pointer, _scale, _scale);
         }
     }
 
@@ -105,7 +105,7 @@ public class Window : NativeObject
     private static extern void GetGlyphSize(IntPtr window, ref int width, ref int height);
 
     [DllImport("procyon", EntryPoint = "procy_set_scale")]
-    private static extern void SetGlyphScale(IntPtr window, float scale);
+    private static extern void SetGlyphScale(IntPtr window, float x, float y);
 
     [DllImport("procyon", EntryPoint = "procy_reset_scale")]
     private static extern void ResetScale(IntPtr window);

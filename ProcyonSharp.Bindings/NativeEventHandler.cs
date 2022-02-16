@@ -17,7 +17,7 @@ internal readonly struct KeyInfo
 /// <summary>
 ///     Represents the state of modifier keys held during a key press/release input event
 /// </summary>
-public class KeyMod
+public readonly struct KeyMod
 {
     public KeyMod(bool shift, bool control, bool alt)
     {
@@ -59,9 +59,13 @@ public abstract class NativeEventHandler : NativeObject
         _nativeKeyPressedCallback = OnNativeKeyPressed;
         _nativeKeyReleasedCallback = OnNativeKeyReleased;
         _nativeCharEnteredCallback = OnNativeCharacterEntered;
+        _nativeMouseMovedCallback = OnNativeMouseMoved;
+        _nativeMousePressedCallback = OnNativeMousePressed;
+        _nativeMouseReleasedCallback = OnNativeMouseReleased;
         Pointer = CreateCallbackState(_nativeLoadCallback, _nativeUnloadCallback, _nativeDrawCallback,
             _nativeResizedCallback, _nativeKeyPressedCallback, _nativeKeyReleasedCallback,
-            _nativeCharEnteredCallback);
+            _nativeCharEnteredCallback, _nativeMouseMovedCallback, _nativeMousePressedCallback, 
+            _nativeMouseReleasedCallback);
     }
 
     public Window Window
@@ -80,11 +84,17 @@ public abstract class NativeEventHandler : NativeObject
     }
 
     [DllImport("procyon", EntryPoint = "procy_create_callback_state")]
-    private static extern IntPtr CreateCallbackState(OnNativeLoadCallback onLoadCallback,
-        OnNativeUnloadCallback onUnloadCallback, OnNativeDrawCallback onDrawCallback,
-        OnNativeResizedCallback onResizedCallback, OnNativeKeyPressedCallback onKeyPressedCallback,
+    private static extern IntPtr CreateCallbackState(
+        OnNativeLoadCallback onLoadCallback,
+        OnNativeUnloadCallback onUnloadCallback, 
+        OnNativeDrawCallback onDrawCallback,
+        OnNativeResizedCallback onResizedCallback, 
+        OnNativeKeyPressedCallback onKeyPressedCallback,
         OnNativeKeyReleasedCallback onKeyReleasedCallback,
-        OnNativeCharEnteredCallback onCharEnteredCallback);
+        OnNativeCharEnteredCallback onCharEnteredCallback, 
+        OnNativeMouseMovedCallback onMouseMovedCallback,
+        OnNativeMousePressedCallback onNativeMousePressedCallback,
+        OnNativeMouseReleasedCallback onNativeMouseReleasedCallback);
 
     [DllImport("procyon", EntryPoint = "procy_destroy_state")]
     private static extern void DestroyCallbackState(IntPtr statePtr);
@@ -147,6 +157,29 @@ public abstract class NativeEventHandler : NativeObject
     {
     }
 
+    /// <summary>
+    /// Called when the mouse is moved
+    /// </summary>
+    /// <param name="x">The new X position in sub-pixel coordinates (if available)</param>
+    /// <param name="y">The new Y position in sub-pixel coordinates (if available)</param>
+    protected virtual void OnMouseMoved(double x, double y)
+    {
+    }
+
+    /// <summary>
+    /// Called when a mouse button is pressed
+    /// </summary>
+    protected virtual void OnMousePressed(MouseButton button, KeyMod mod)
+    {
+    }
+
+    /// <summary>
+    /// Called when a mouse button is released
+    /// </summary>
+    protected virtual void OnMouseReleased(MouseButton button, KeyMod mod)
+    {
+    }
+
     private void OnNativeLoad(IntPtr nativeState)
     {
         OnLoad();
@@ -183,6 +216,21 @@ public abstract class NativeEventHandler : NativeObject
         OnCharacterEntered((char)(0x0000ff & c));
     }
 
+    private void OnNativeMouseMoved(IntPtr _, double x, double y)
+    {
+        OnMouseMoved(x, y);
+    }
+
+    private void OnNativeMousePressed(IntPtr _, MouseButton button, bool shift, bool ctrl, bool alt)
+    {
+        OnMousePressed(button, new KeyMod(shift, ctrl, alt));
+    }
+
+    private void OnNativeMouseReleased(IntPtr _, MouseButton button, bool shift, bool ctrl, bool alt)
+    {
+        OnMousePressed(button, new KeyMod(shift, ctrl, alt));
+    }
+
     private delegate void OnNativeLoadCallback(IntPtr _);
 
     private delegate void OnNativeUnloadCallback(IntPtr _);
@@ -197,6 +245,11 @@ public abstract class NativeEventHandler : NativeObject
 
     private delegate void OnNativeCharEnteredCallback(IntPtr _, uint codepoint);
 
+    private delegate void OnNativeMouseMovedCallback(IntPtr _, double x, double y);
+
+    private delegate void OnNativeMousePressedCallback(IntPtr _, MouseButton button, bool shift, bool ctrl, bool alt);
+
+    private delegate void OnNativeMouseReleasedCallback(IntPtr _, MouseButton button, bool shift, bool ctrl, bool alt);
 
     // Maintain references to callback delegates in order to prevent them from being GC'd
     // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
@@ -206,7 +259,9 @@ public abstract class NativeEventHandler : NativeObject
     private readonly OnNativeResizedCallback _nativeResizedCallback;
     private readonly OnNativeKeyPressedCallback _nativeKeyPressedCallback;
     private readonly OnNativeKeyReleasedCallback _nativeKeyReleasedCallback;
-
     private readonly OnNativeCharEnteredCallback _nativeCharEnteredCallback;
+    private readonly OnNativeMouseMovedCallback _nativeMouseMovedCallback;
+    private readonly OnNativeMousePressedCallback _nativeMousePressedCallback;
+    private readonly OnNativeMouseReleasedCallback _nativeMouseReleasedCallback;
     // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 }
