@@ -45,7 +45,7 @@ internal class TextEntryBuffer
         if (_options.ExitKeys.Contains(key))
         {
             Finished = true;
-            _options.OnCompletion(_buffer.ToString());
+            _options?.OnCompletion(_buffer.ToString());
             return;
         }
 
