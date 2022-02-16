@@ -3,26 +3,26 @@
 <package>
   <metadata>
     <id>ProcyonSharp</id>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <title>ProcyonSharp</title>
     <authors>Addison Schuhardt</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/aschuhardt/ProcyonSharp</projectUrl>
-    <description>.NET 5.0 bindings for my personal 2D game engine.  Includes built-in support for configurable input mapping.</description>
-    <releaseNotes>Cleanup and adding support for new sprite-rendering capability, also updating platform target to .NET 5.0</releaseNotes>
-    <copyright>Copyright 2021 Addison Schuhardt</copyright>
+    <description>.NET 6 bindings for my personal 2D game engine.  Includes built-in support for configurable input mapping.</description>
+    <releaseNotes>Incorporating recent engine feature additions and upgrading to .NET 6</releaseNotes>
+    <copyright>Copyright 2022 Addison Schuhardt</copyright>
     <tags>roguelike engine procyon gamedev tui</tags>
     <dependencies>
-      <group targetFramework="net5.0">
-        <dependency id="ProcyonSharp.Attributes" version="1.1.0" />
-        <dependency id="ProcyonSharp.Input" version="1.1.0" />
-        <dependency id="ProcyonSharp.Bindings" version="1.1.0" />
+      <group targetFramework="net6.0">
+        <dependency id="ProcyonSharp.Attributes" version="1.2.0" />
+        <dependency id="ProcyonSharp.Input" version="1.2.0" />
+        <dependency id="ProcyonSharp.Bindings" version="1.2.0" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\$configuration$\net5.0\ProcyonSharp.dll" target="lib\net5.0\" />
+    <file src="bin\$configuration$\net6.0\ProcyonSharp.dll" target="lib\net6.0\" />
     <file src="runtimes\**" target="runtimes\" />
   </files>
 </package>

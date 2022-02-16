@@ -3,25 +3,25 @@
 <package>
   <metadata>
     <id>ProcyonSharp.Input</id>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <title>ProcyonSharp.Bindings</title>
     <authors>Addison Schuhardt</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/aschuhardt/ProcyonSharp</projectUrl>
     <description>Configurable input plumbing for ProcyonSharp</description>
-    <releaseNotes>Cleanup alongside project-wide 1.1.0 release</releaseNotes>
-    <copyright>Copyright 2021 Addison Schuhardt</copyright>
+    <releaseNotes>Upgrading to .NET 6</releaseNotes>
+    <copyright>Copyright 2022 Addison Schuhardt</copyright>
     <tags />
     <dependencies>
       <group targetFramework="net5.0">
         <dependency id="YamlDotNet" version="9.1.0" />
-        <dependency id="ProcyonSharp.Attributes" version="1.1.0" />
-        <dependency id="ProcyonSharp.Bindings" version="1.1.0" />
+        <dependency id="ProcyonSharp.Attributes" version="1.2.0" />
+        <dependency id="ProcyonSharp.Bindings" version="1.2.0" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\$configuration$\net5.0\ProcyonSharp.Input.dll" target="lib\net5.0\" />
+    <file src="bin\$configuration$\net6.0\ProcyonSharp.Input.dll" target="lib\net6.0\" />
   </files>
 </package>
