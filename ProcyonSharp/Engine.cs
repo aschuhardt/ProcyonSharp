@@ -8,6 +8,7 @@ using ProcyonSharp.Bindings;
 using ProcyonSharp.Bindings.Drawing;
 using ProcyonSharp.Input;
 using ProcyonSharp.Input.Serialization;
+using ProcyonSharp.TextEntry;
 
 namespace ProcyonSharp
 {
@@ -15,6 +16,7 @@ namespace ProcyonSharp
     {
         private readonly IDictionary<T, GameStateInputFunctionKeyMap> _inputFunctions;
         private readonly Stack<IGameState<T>> _stateStack;
+
 
         private T _currentState;
         private TextEntryBuffer _textEntryBuffer;
@@ -84,10 +86,9 @@ namespace ProcyonSharp
         /// <summary>
         ///     Begin processing text input events, storing new character entries in the provided buffer
         /// </summary>
-        public void BeginTextEntry(StringBuilder buffer, bool multiline = false, bool allowTab = false,
-            int maxLength = ushort.MaxValue, params Key[] exitKeys)
+        public void BeginTextEntry(StringBuilder buffer, TextEntryOptions options)
         {
-            _textEntryBuffer = new TextEntryBuffer(buffer, exitKeys, multiline, maxLength, allowTab);
+            _textEntryBuffer = new TextEntryBuffer(buffer, options);
         }
 
         /// <summary>

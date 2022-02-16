@@ -2,25 +2,18 @@
 using System.Text;
 using ProcyonSharp.Bindings;
 
-namespace ProcyonSharp
+namespace ProcyonSharp.TextEntry
 {
     internal class TextEntryBuffer
     {
         private const int TabWidth = 4;
-        private readonly bool _allowTab;
-
         private readonly StringBuilder _buffer;
-        private readonly Key[] _exitKeys;
-        private readonly int _maxLength;
-        private readonly bool _multiLine;
+        private readonly TextEntryOptions _options;
 
-        public TextEntryBuffer(StringBuilder buffer, Key[] exitKeys, bool multiLine, int maxLength, bool allowTab)
+        public TextEntryBuffer(StringBuilder buffer, TextEntryOptions options)
         {
             _buffer = buffer;
-            _exitKeys = exitKeys;
-            _multiLine = multiLine;
-            _maxLength = maxLength;
-            _allowTab = allowTab;
+            _options = options;
             Finished = false;
         }
 
@@ -41,7 +34,7 @@ namespace ProcyonSharp
 
         private void HandleEnter()
         {
-            if (!_multiLine)
+            if (!_options.MultiLine)
                 return;
 
             _buffer.AppendLine();
@@ -49,9 +42,10 @@ namespace ProcyonSharp
 
         public void HandleKeyPressed(Key key, KeyMod mod)
         {
-            if (_exitKeys.Contains(key))
+            if (_options.ExitKeys.Contains(key))
             {
                 Finished = true;
+                _options.OnCompletion(_buffer.ToString());
                 return;
             }
 
@@ -71,7 +65,7 @@ namespace ProcyonSharp
 
         private void HandleTab()
         {
-            if (!_allowTab || _buffer.Length + TabWidth > _maxLength)
+            if (!_options.AllowTab || _buffer.Length + TabWidth > _options.MaxLength)
                 return;
 
             for (var i = 0; i < TabWidth; i++)
@@ -80,7 +74,7 @@ namespace ProcyonSharp
 
         public void HandleTextInput(char c)
         {
-            if (_buffer.Length >= _maxLength)
+            if (_buffer.Length >= _options.MaxLength)
                 return;
 
             _buffer.Append(c);
