@@ -11,17 +11,16 @@ using ProcyonSharp.Bindings.Drawing;
 [assembly: TypeForwardedTo(typeof(DrawContext))]
 [assembly: TypeForwardedTo(typeof(Window))]
 
-namespace ProcyonSharp
+namespace ProcyonSharp;
+
+public static class Procyon
 {
-    public static class Procyon
+    public static Engine<T> Create<T, U>()
+        where T : struct, Enum
+        where U : IGameState<T>, new()
     {
-        public static Engine<T> Create<T, U>()
-            where T : struct, Enum
-            where U : IGameState<T>, new()
-        {
-            var engine = new Engine<T>();
-            engine.InitialState<U>();
-            return engine;
-        }
+        var engine = new Engine<T>();
+        engine.InitialState<U>();
+        return engine;
     }
 }

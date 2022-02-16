@@ -2,22 +2,21 @@ using System;
 using ProcyonSharp.Bindings;
 using ProcyonSharp.Bindings.Drawing;
 
-namespace ProcyonSharp
+namespace ProcyonSharp;
+
+public interface IGameState<T> where T : struct, Enum
 {
-    public interface IGameState<T> where T : struct, Enum
-    {
-        Engine<T> Engine { set; }
+    Engine<T> Engine { set; }
 
-        void Load();
+    void Load();
 
-        void Unload();
+    void Unload();
 
-        void Draw(DrawContext ctx);
+    void Draw(DrawContext ctx);
 
-        void KeyPressed(Key key, KeyMod modifier);
+    void KeyPressed(Key key, KeyMod modifier);
 
-        void KeyReleased(Key key, KeyMod modifier);
+    void KeyReleased(Key key, KeyMod modifier);
 
-        void Resized(int width, int height);
-    }
+    void Resized(int width, int height);
 }

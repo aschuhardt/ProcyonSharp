@@ -1,8 +1,7 @@
-﻿namespace ProcyonSharp.Sample
+﻿namespace ProcyonSharp.Sample;
+
+public enum SampleState
 {
-    public enum SampleState
-    {
-        Menu,
-        Gameplay
-    }
+    Menu,
+    Gameplay
 }

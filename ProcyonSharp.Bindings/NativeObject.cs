@@ -1,32 +1,31 @@
 ﻿using System;
 
-namespace ProcyonSharp.Bindings
+namespace ProcyonSharp.Bindings;
+
+public abstract class NativeObject : IDisposable
 {
-    public abstract class NativeObject : IDisposable
+    public IntPtr Pointer { get; protected set; }
+
+    public void Dispose()
     {
-        public IntPtr Pointer { get; protected set; }
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+    protected abstract void Cleanup();
 
-        protected abstract void Cleanup();
+    private void ReleaseUnmanagedResources()
+    {
+        Cleanup();
+    }
 
-        private void ReleaseUnmanagedResources()
-        {
-            Cleanup();
-        }
+    protected virtual void Dispose(bool disposing)
+    {
+        ReleaseUnmanagedResources();
+    }
 
-        protected virtual void Dispose(bool disposing)
-        {
-            ReleaseUnmanagedResources();
-        }
-
-        ~NativeObject()
-        {
-            Dispose(false);
-        }
+    ~NativeObject()
+    {
+        Dispose(false);
     }
 }

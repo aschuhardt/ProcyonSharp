@@ -1,51 +1,51 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-      <None Remove="cobblestone.png" />
-    </ItemGroup>
+	<ItemGroup>
+		<None Remove="cobblestone.png" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <Content Include="..\ProcyonSharp\runtimes\linux-x64\native\libprocyon.so" Link="libprocyon.so">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
+	<ItemGroup>
+		<Content Include="..\ProcyonSharp\runtimes\linux-x64\native\libprocyon.so" Link="libprocyon.so">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-    <ItemGroup>
-      <Content Include="..\ProcyonSharp\runtimes\win-x64\native\procyon.dll" Link="procyon.dll">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="cobblestone.png">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-    </ItemGroup>
+	<ItemGroup>
+		<Content Include="..\ProcyonSharp\runtimes\win-x64\native\procyon.dll" Link="procyon.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="cobblestone.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\ProcyonSharp\ProcyonSharp.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ProcyonSharp\ProcyonSharp.csproj" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Program.cs">
-        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      </Compile>
-    </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Program.cs">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Compile>
+	</ItemGroup>
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
-<!--        <PublishTrimmed>true</PublishTrimmed>-->
-<!--        <PublishSingleFile>true</PublishSingleFile>-->
-<!--        <PublishReadyToRun>true</PublishReadyToRun>-->
-        <AssemblyName>procyon-sample</AssemblyName>
-        <LangVersion>latest</LangVersion>
-        <Platforms>AnyCPU;x86;x64</Platforms>
-    </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net5.0</TargetFramework>
+		<!--        <PublishTrimmed>true</PublishTrimmed>-->
+		<!--        <PublishSingleFile>true</PublishSingleFile>-->
+		<!--        <PublishReadyToRun>true</PublishReadyToRun>-->
+		<AssemblyName>procyon-sample</AssemblyName>
+		<LangVersion>latest</LangVersion>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-      <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
 
-  </Project>
+</Project>

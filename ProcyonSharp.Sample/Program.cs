@@ -1,13 +1,12 @@
 ﻿using ProcyonSharp.Sample.States;
 
-namespace ProcyonSharp.Sample
+namespace ProcyonSharp.Sample;
+
+internal class Program
 {
-    internal class Program
+    private static void Main()
     {
-        private static void Main()
-        {
-            using var state = Procyon.Create<SampleState, Menu>();
-            state.Start(800, 600, "SuruliaSharp");
-        }
+        using var state = Procyon.Create<SampleState, Menu>();
+        state.Start(800, 600, "SuruliaSharp");
     }
 }
