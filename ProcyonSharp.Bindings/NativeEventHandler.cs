@@ -228,7 +228,7 @@ public abstract class NativeEventHandler : NativeObject
 
     private void OnNativeMouseReleased(IntPtr _, MouseButton button, bool shift, bool ctrl, bool alt)
     {
-        OnMousePressed(button, new KeyMod(shift, ctrl, alt));
+        OnMouseReleased(button, new KeyMod(shift, ctrl, alt));
     }
 
     private delegate void OnNativeLoadCallback(IntPtr _);

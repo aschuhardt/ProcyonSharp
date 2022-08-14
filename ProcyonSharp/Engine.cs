@@ -30,6 +30,8 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
     public bool TextEntryActive => _textEntryBuffer != null;
 
+    public IGameState<T> CurrentState => _stateStack.Any() ? _stateStack.Peek() : null;
+
     public void Start(int width, int height, string title)
     {
         using var window = new Window(width, height, title, this);
@@ -46,7 +48,7 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
         // so that by the time it's called by the native Window implementation,
         // it can make changes to the Window that won't be overridden at the start
         // of the draw loop
-        _stateStack.Peek().Load();
+        CurrentState?.Load();
     }
 
     internal void InitialState<U>() where U : IGameState<T>, new()
@@ -134,20 +136,17 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
     protected override void OnDraw(DrawContext ctx, double _)
     {
-        if (_stateStack.Any())
-            _stateStack.Peek().Draw(ctx);
+        CurrentState?.Draw(ctx);
     }
 
     protected override void OnResized(int width, int height)
     {
-        if (_stateStack.Any())
-            _stateStack.Peek().Resized(width, height);
+        CurrentState?.Resized(width, height);
     }
 
     protected override void OnKeyReleased(Key key, KeyMod mod)
     {
-        if (_stateStack.Any())
-            _stateStack.Peek().KeyReleased(key, mod);
+        CurrentState?.KeyReleased(key, mod);
     }
 
     protected override void OnKeyPressed(Key key, KeyMod mod)
@@ -155,7 +154,7 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
         if (!_stateStack.Any())
             return;
 
-        _stateStack.Peek().KeyPressed(key, mod);
+        CurrentState?.KeyPressed(key, mod);
 
         // if text is being entered, then we need to handle key inputs differently
         if (TextEntryActive)
@@ -180,5 +179,20 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
                 && inputFunction.Ctrl == mod.Control
                 && inputFunction.Shift == mod.Shift)
                 inputFunction.FunctionCall.DynamicInvoke(_stateStack.Peek());
+    }
+
+    protected override void OnMouseMoved(double x, double y)
+    {
+        CurrentState?.MouseMoved(x, y);
+    }
+
+    protected override void OnMousePressed(MouseButton button, KeyMod mod)
+    {
+        CurrentState?.MousePressed(button, mod);
+    }
+
+    protected override void OnMouseReleased(MouseButton button, KeyMod mod)
+    {
+        CurrentState?.MouseReleased(button, mod);
     }
 }

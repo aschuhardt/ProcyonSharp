@@ -19,4 +19,10 @@ public interface IGameState<T> where T : struct, Enum
     void KeyReleased(Key key, KeyMod modifier);
 
     void Resized(int width, int height);
+
+    void MouseMoved(double x, double y);
+
+    void MousePressed(MouseButton button, KeyMod modifier);
+
+    void MouseReleased(MouseButton button, KeyMod modifier);
 }

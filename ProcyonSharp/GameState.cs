@@ -31,4 +31,16 @@ public abstract class GameState<T> : IGameState<T> where T : struct, Enum
     public virtual void Resized(int width, int height)
     {
     }
+
+    public virtual void MouseMoved(double x, double y)
+    {
+    }
+
+    public virtual void MousePressed(MouseButton button, KeyMod modifier)
+    {
+    }
+
+    public virtual void MouseReleased(MouseButton button, KeyMod modifier)
+    {
+    }
 }

@@ -16,6 +16,8 @@ public class Gameplay : GameState<SampleState>
     private Sprite _cobblestone;
     private (int Width, int Height) _glyphSize;
     private (int X, int Y) _playerPosition;
+    private (double X, double Y) _mousePosition;
+    private bool _mouseDown;
 
     public override void Load()
     {
@@ -39,6 +41,11 @@ public class Gameplay : GameState<SampleState>
             ctx.DrawString(0, 0, _enteredText, true);
         else
             ctx.DrawString(0, 0, _enteredText, false, Color.Black, Color.White);
+
+        ctx.DrawString(0, 100, $"Mouse position: ({_mousePosition.X:F1}, {_mousePosition.Y:F1})");
+
+        if (_mouseDown)
+            ctx.DrawString(0, 120, "Mouse pressed!", bold: true);
     }
 
     [Input(Key.Escape)]
@@ -78,6 +85,22 @@ public class Gameplay : GameState<SampleState>
     [Input(Key.Enter)]
     public void StartTextEntry()
     {
-        Engine.BeginTextEntry(_enteredText, new TextEntryOptions { ExitKeys = new[] { Key.Escape } });
+        Engine.BeginTextEntry(_enteredText, new TextEntryOptions { ExitKeys = new[] { Key.Escape, Key.Enter } });
+    }
+
+    public override void MousePressed(MouseButton button, KeyMod modifier)
+    {
+        _mouseDown = true;
+    }
+
+    public override void MouseReleased(MouseButton button, KeyMod modifier)
+    {
+        _mouseDown = false;
+    }
+
+    public override void MouseMoved(double x, double y)
+    {
+        _mousePosition.X = x;
+        _mousePosition.Y = y;
     }
 }
