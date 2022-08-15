@@ -1,0 +1,29 @@
+name: publish to nuget
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ["ProcyonSharp.Bindings", "ProcyonSharp.Attributes", "ProcyonSharp.Input", "ProcyonSharp"]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.400
+      - name: publish on version change
+        id: publish_nuget
+        uses: brandedoutcast/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: ${{matrix.project}}/${{matrix.project}}.csproj
+          BUILD_CONFIGURATION: Release
+          BUILD_PLATFORM: x64          
+          PACKAGE_NAME: ${{matrix.project}}
+          TAG_FORMAT: "*"
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          INCLUDE_SYMBOLS: true
