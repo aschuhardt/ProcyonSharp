@@ -21,8 +21,6 @@ jobs:
         uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: ${{matrix.project}}/${{matrix.project}}.csproj
-          BUILD_CONFIGURATION: Release
-          BUILD_PLATFORM: x64          
           PACKAGE_NAME: ${{matrix.project}}
           TAG_FORMAT: "*"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
