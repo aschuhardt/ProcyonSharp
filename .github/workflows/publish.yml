@@ -24,4 +24,4 @@ jobs:
           PACKAGE_NAME: ${{matrix.project}}
           TAG_FORMAT: "*"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          INCLUDE_SYMBOLS: true
+          INCLUDE_SYMBOLS: false # TODO: toggle once this issue is fixed https://github.com/brandedoutcast/publish-nuget/issues/58
