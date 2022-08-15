@@ -16,8 +16,6 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 {
     private readonly IDictionary<T, GameStateInputFunctionKeyMap> _inputFunctions;
     private readonly Stack<IGameState<T>> _stateStack;
-
-
     private T _currentState;
     private TextEntryBuffer _textEntryBuffer;
 
@@ -30,7 +28,7 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
     public bool TextEntryActive => _textEntryBuffer != null;
 
-    public IGameState<T> CurrentState => _stateStack.Any() ? _stateStack.Peek() : null;
+    protected IGameState<T> CurrentState => _stateStack.Any() ? _stateStack.Peek() : null;
 
     public void Start(int width, int height, string title)
     {
