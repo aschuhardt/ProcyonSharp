@@ -64,7 +64,7 @@ public abstract class NativeEventHandler : NativeObject
         _nativeMouseReleasedCallback = OnNativeMouseReleased;
         Pointer = CreateCallbackState(_nativeLoadCallback, _nativeUnloadCallback, _nativeDrawCallback,
             _nativeResizedCallback, _nativeKeyPressedCallback, _nativeKeyReleasedCallback,
-            _nativeCharEnteredCallback, _nativeMouseMovedCallback, _nativeMousePressedCallback, 
+            _nativeCharEnteredCallback, _nativeMouseMovedCallback, _nativeMousePressedCallback,
             _nativeMouseReleasedCallback);
     }
 
@@ -86,12 +86,12 @@ public abstract class NativeEventHandler : NativeObject
     [DllImport("procyon", EntryPoint = "procy_create_callback_state")]
     private static extern IntPtr CreateCallbackState(
         OnNativeLoadCallback onLoadCallback,
-        OnNativeUnloadCallback onUnloadCallback, 
+        OnNativeUnloadCallback onUnloadCallback,
         OnNativeDrawCallback onDrawCallback,
-        OnNativeResizedCallback onResizedCallback, 
+        OnNativeResizedCallback onResizedCallback,
         OnNativeKeyPressedCallback onKeyPressedCallback,
         OnNativeKeyReleasedCallback onKeyReleasedCallback,
-        OnNativeCharEnteredCallback onCharEnteredCallback, 
+        OnNativeCharEnteredCallback onCharEnteredCallback,
         OnNativeMouseMovedCallback onMouseMovedCallback,
         OnNativeMousePressedCallback onNativeMousePressedCallback,
         OnNativeMouseReleasedCallback onNativeMouseReleasedCallback);
@@ -158,7 +158,7 @@ public abstract class NativeEventHandler : NativeObject
     }
 
     /// <summary>
-    /// Called when the mouse is moved
+    ///     Called when the mouse is moved
     /// </summary>
     /// <param name="x">The new X position in sub-pixel coordinates (if available)</param>
     /// <param name="y">The new Y position in sub-pixel coordinates (if available)</param>
@@ -167,14 +167,14 @@ public abstract class NativeEventHandler : NativeObject
     }
 
     /// <summary>
-    /// Called when a mouse button is pressed
+    ///     Called when a mouse button is pressed
     /// </summary>
     protected virtual void OnMousePressed(MouseButton button, KeyMod mod)
     {
     }
 
     /// <summary>
-    /// Called when a mouse button is released
+    ///     Called when a mouse button is released
     /// </summary>
     protected virtual void OnMouseReleased(MouseButton button, KeyMod mod)
     {
@@ -262,6 +262,7 @@ public abstract class NativeEventHandler : NativeObject
     private readonly OnNativeCharEnteredCallback _nativeCharEnteredCallback;
     private readonly OnNativeMouseMovedCallback _nativeMouseMovedCallback;
     private readonly OnNativeMousePressedCallback _nativeMousePressedCallback;
+
     private readonly OnNativeMouseReleasedCallback _nativeMouseReleasedCallback;
     // ReSharper restore PrivateFieldCanBeConvertedToLocalVariable
 }

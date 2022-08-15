@@ -1,52 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Authors>Addison Schuhardt</Authors>
-    <Description>.NET Core bindings for my personal roguelike engine.  Includes built-in support for configurable input controls.</Description>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Platforms>x64</Platforms>
-    <Title>ProcyonSharp</Title>
-    <Version>1.2.2</Version>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/aschuhardt/ProcyonSharp</RepositoryUrl>
-    <PackageTags>roguelike engine tui opengl</PackageTags>
-    <IncludeSymbols>True</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PlatformTarget>x64</PlatformTarget>
-	<NoWarn>NU1505</NoWarn>
-	<NoWarn>NU1504</NoWarn>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>Addison Schuhardt</Authors>
+		<Description>.NET Core bindings for my personal roguelike engine.  Includes built-in support for configurable input controls.</Description>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<Platforms>x64</Platforms>
+		<Title>ProcyonSharp</Title>
+		<Version>1.2.2</Version>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/aschuhardt/ProcyonSharp</RepositoryUrl>
+		<PackageTags>roguelike engine tui opengl</PackageTags>
+		<IncludeSymbols>True</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PlatformTarget>x64</PlatformTarget>
+		<NoWarn>NU1505</NoWarn>
+		<NoWarn>NU1504</NoWarn>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="runtimes\linux-x64\native\libprocyon.so" Pack="True" PackagePath="runtimes\linux-x64\native\libprocyon.so">
-		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="runtimes\win-x64\native\procyon.dll" Pack="True" PackagePath="runtimes\win-x64\native\procyon.dll">
-		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="runtimes\linux-x64\native\libprocyon.so" Pack="True"
+		      PackagePath="runtimes\linux-x64\native\libprocyon.so">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="runtimes\win-x64\native\procyon.dll" Pack="True" PackagePath="runtimes\win-x64\native\procyon.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ProcyonSharp.Attributes\ProcyonSharp.Attributes.csproj">
-      <Private>true</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProcyonSharp.Bindings\ProcyonSharp.Bindings.csproj">
-      <Private>true</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\ProcyonSharp.Input\ProcyonSharp.Input.csproj">
-      <Private>true</Private>
-    </ProjectReference>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ProcyonSharp.Attributes\ProcyonSharp.Attributes.csproj">
+			<Private>true</Private>
+		</ProjectReference>
+		<ProjectReference Include="..\ProcyonSharp.Bindings\ProcyonSharp.Bindings.csproj">
+			<Private>true</Private>
+		</ProjectReference>
+		<ProjectReference Include="..\ProcyonSharp.Input\ProcyonSharp.Input.csproj">
+			<Private>true</Private>
+		</ProjectReference>
+	</ItemGroup>
 
 </Project>

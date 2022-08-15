@@ -13,18 +13,18 @@ public class DrawContext
 {
     private readonly Window _window;
 
-    public int Layer
-    {
-        get => _layer;
-        set => _layer = (short)(value % short.MaxValue);
-    }
-
     private short _layer;
 
     internal DrawContext(Window window)
     {
         Layer = 1;
         _window = window;
+    }
+
+    public int Layer
+    {
+        get => _layer;
+        set => _layer = (short)(value % short.MaxValue);
     }
 
     /// <summary>
@@ -137,12 +137,14 @@ public class DrawContext
         string contents);
 
     [DllImport("procyon", EntryPoint = "procy_draw_string_bold")]
-    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, short z, Color foreColor,
+        Color backColor,
         StringBuilder contents);
 
 
     [DllImport("procyon", EntryPoint = "procy_draw_string_bold")]
-    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+    private static extern void DrawStringBold(IntPtr windowPtr, short x, short y, short z, Color foreColor,
+        Color backColor,
         string contents);
 
     [DllImport("procyon", EntryPoint = "procy_draw_char")]
@@ -150,11 +152,13 @@ public class DrawContext
         byte codepoint);
 
     [DllImport("procyon", EntryPoint = "procy_draw_char_bold")]
-    private static extern void DrawCharBold(IntPtr windowPtr, short x, short y, short z, Color foreColor, Color backColor,
+    private static extern void DrawCharBold(IntPtr windowPtr, short x, short y, short z, Color foreColor,
+        Color backColor,
         byte codepoint);
 
     [DllImport("procyon", EntryPoint = "procy_draw_rect")]
-    private static extern void DrawRect(IntPtr windowPtr, short x, short y, short z, short width, short height, Color color);
+    private static extern void DrawRect(IntPtr windowPtr, short x, short y, short z, short width, short height,
+        Color color);
 
     [DllImport("procyon", EntryPoint = "procy_draw_line")]
     private static extern void DrawLine(IntPtr windowPtr, short x1, short y1, short x2, short y2, short z, Color color);

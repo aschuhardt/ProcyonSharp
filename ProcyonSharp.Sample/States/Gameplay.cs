@@ -15,9 +15,9 @@ public class Gameplay : GameState<SampleState>
     private readonly Color _playerGlyphColor = Color.FromRgb(255, 255, 0);
     private Sprite _cobblestone;
     private (int Width, int Height) _glyphSize;
-    private (int X, int Y) _playerPosition;
-    private (double X, double Y) _mousePosition;
     private bool _mouseDown;
+    private (double X, double Y) _mousePosition;
+    private (int X, int Y) _playerPosition;
 
     public override void Load()
     {
@@ -45,7 +45,7 @@ public class Gameplay : GameState<SampleState>
         ctx.DrawString(0, 100, $"Mouse position: ({_mousePosition.X:F1}, {_mousePosition.Y:F1})");
 
         if (_mouseDown)
-            ctx.DrawString(0, 120, "Mouse pressed!", bold: true);
+            ctx.DrawString(0, 120, "Mouse pressed!", true);
     }
 
     [Input(Key.Escape)]
