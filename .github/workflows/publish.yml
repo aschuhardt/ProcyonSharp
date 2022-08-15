@@ -17,6 +17,6 @@ jobs:
         with:
           dotnet-version: 6.0.400
       - name: Pack
-        run: dotnet pack -c Release --include-symbols -o . ${{matrix.project}}/${{matrix.project}}
+        run: dotnet pack -c Release --include-symbols -o . ${{matrix.project}}/${{matrix.project}}.csproj
       - name: Push
         run: dotnet nuget push *.nupkg --skip-duplicates -k ${{secrets.NUGET_API_KEY}} -sk ${{secrets.NUGET_API_KEY}}
