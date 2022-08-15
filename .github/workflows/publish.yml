@@ -19,6 +19,6 @@ jobs:
       - name: Build
         run: dotnet build -c Release ${{matrix.project}}/${{matrix.project}}.csproj
       - name: Pack
-        run: dotnet pack -c Release --include-symbols -o . ${{matrix.project}}/${{matrix.project}}.csproj
+        run: dotnet pack -c Release -o . ${{matrix.project}}/${{matrix.project}}.csproj
       - name: Push
-        run: dotnet nuget push *.nupkg --skip-duplicate -k ${{secrets.NUGET_API_KEY}} -sk ${{secrets.NUGET_API_KEY}}
+        run: dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json --skip-duplicate -k ${{secrets.NUGET_API_KEY}}
