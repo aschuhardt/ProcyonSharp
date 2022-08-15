@@ -8,6 +8,8 @@ public abstract class GameState<T> : IGameState<T> where T : struct, Enum
 {
     public Engine<T> Engine { get; set; } = null!;
 
+    protected Window Window => Engine?.Window;
+
     public virtual void Load()
     {
     }
