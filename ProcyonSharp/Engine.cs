@@ -107,9 +107,10 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
         if (!inputFuncs.Any())
             return "(none)";
 
-        var descriptions = new List<string>(inputFuncs.Length);
-        foreach (var inputFunc in inputFuncs)
+        var description = new StringBuilder();
+        for (var i = 0; i < inputFuncs.Length; i++)
         {
+            var inputFunc = inputFuncs[i];
             var desc = new StringBuilder();
 
             if (inputFunc.Alt)
@@ -121,10 +122,13 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
             desc.Append(inputFunc.Key.ToString().ToUpperInvariant());
 
-            descriptions.Add(desc.ToString());
+            if (i > 0)
+                description.Append(" | ");
+
+            description.Append(desc);
         }
 
-        return string.Join('|', descriptions);
+        return description.ToString();
     }
 
     protected override void OnCharacterEntered(char c)
