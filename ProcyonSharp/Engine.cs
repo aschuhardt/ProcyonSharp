@@ -148,15 +148,14 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
     protected override void OnKeyReleased(Key key, KeyMod mod)
     {
-        CurrentState?.KeyReleased(key, mod);
+        if (!TextEntryActive)
+            CurrentState?.KeyReleased(key, mod);
     }
 
     protected override void OnKeyPressed(Key key, KeyMod mod)
     {
         if (!_stateStack.Any())
             return;
-
-        CurrentState?.KeyPressed(key, mod);
 
         // if text is being entered, then we need to handle key inputs differently
         if (TextEntryActive)
@@ -168,6 +167,8 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
             return;
         }
+        
+        CurrentState?.KeyPressed(key, mod);
 
         if (!_inputFunctions.ContainsKey(_currentState))
             return; // current state has no input functions
