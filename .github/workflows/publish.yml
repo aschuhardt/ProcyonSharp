@@ -16,12 +16,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.400
-      - name: publish on version change
-        id: publish_nuget
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: ${{matrix.project}}/${{matrix.project}}.csproj
-          PACKAGE_NAME: ${{matrix.project}}
-          TAG_FORMAT: "*"
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          INCLUDE_SYMBOLS: false # TODO: toggle once this issue is fixed https://github.com/brandedoutcast/publish-nuget/issues/58
+      - name: Pack
+        run: dotnet pack -c Release --include-symbols -o . ${{matrix.project}}/${{matrix.project}}
+      - name: Push
+        run: dotnet nuget push *.nupkg --skip-duplicates -k ${{secrets.NUGET_API_KEY}} -sk ${{secrets.NUGET_API_KEY}}
