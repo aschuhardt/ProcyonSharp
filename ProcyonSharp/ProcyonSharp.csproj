@@ -29,6 +29,12 @@
 		<None Include="runtimes\win-x64\native\procyon.dll" Pack="True" PackagePath="runtimes\win-x64\native\procyon.dll">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Include="runtimes\browser-wasm\libprocyon.js" Pack="True" PackagePath="runtimes\browser-wasm\libprocyon.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="runtimes\browser-wasm\libprocyon.wasm" Pack="True" PackagePath="runtimes\browser-wasm\libprocyon.wasm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
