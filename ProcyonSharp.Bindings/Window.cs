@@ -50,9 +50,6 @@ public class Window : NativeObject
         get => _scale;
         set
         {
-            if (Math.Abs(_scale - value) <= float.Epsilon)
-                return;
-
             _scale = value;
             SetGlyphScale(Pointer, _scale, _scale);
         }
@@ -63,9 +60,6 @@ public class Window : NativeObject
         get => _highFpsMode;
         set
         {
-            if (_highFpsMode == value) 
-                return;
-
             _highFpsMode = value;
             SetHighFpsMode(Pointer, _highFpsMode);
         }
