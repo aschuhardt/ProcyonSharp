@@ -16,14 +16,9 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.400
-      - name: publish on version change
-        id: publish_nuget
-        uses: brandedoutcast/publish-nuget@v2
-        with:
-          PROJECT_FILE_PATH: ${{matrix.project}}/${{matrix.project}}.csproj
-          BUILD_CONFIGURATION: Release
-          BUILD_PLATFORM: x64          
-          PACKAGE_NAME: ${{matrix.project}}
-          TAG_FORMAT: "*"
-          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-          INCLUDE_SYMBOLS: true
+      - name: Build
+        run: dotnet build -c Release ${{matrix.project}}/${{matrix.project}}.csproj
+      - name: Pack
+        run: dotnet pack -c Release -o . ${{matrix.project}}/${{matrix.project}}.csproj
+      - name: Push
+        run: dotnet nuget push *.nupkg -s https://api.nuget.org/v3/index.json --skip-duplicate -k ${{secrets.NUGET_API_KEY}}
