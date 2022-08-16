@@ -22,9 +22,13 @@ public readonly struct Color
             (byte)MathF.Min(MathF.Abs(b) * 255.0f, 255.0f));
     }
 
-
     public static Color FromRgb(byte r, byte g, byte b)
     {
         return CreateColor(r, g, b);
+    }
+
+    public Color(int value)
+    {
+        Value = value;
     }
 }
