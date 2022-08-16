@@ -15,14 +15,9 @@ public class SpriteSheet : NativeObject
                 $"Failed to load spritesheet from {path}; most likely the maximum number of spritesheets was exceeded");
     }
 
-    public Sprite CreateSprite(short x, short y, short width, short height, in Color? foreColor = null,
-        in Color? backColor = null)
+    public Sprite CreateSprite(short x, short y, short width, short height)
     {
-        return new Sprite(this, x, y, width, height)
-        {
-            ForeColor = foreColor.GetValueOrDefault(Color.White),
-            BackColor = backColor.GetValueOrDefault(Color.Black)
-        };
+        return new Sprite(this, x, y, width, height); 
     }
 
     protected override void Cleanup()

@@ -15,8 +15,6 @@ public class Sprite : NativeObject
 
     public (short, short) Size { get; }
     public (short, short) Offset { get; }
-    public Color ForeColor { get; set; }
-    public Color BackColor { get; set; }
 
     protected override void Cleanup()
     {

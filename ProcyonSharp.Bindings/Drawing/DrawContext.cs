@@ -119,9 +119,11 @@ public class DrawContext
     /// <param name="sprite">The sprite to be drawn</param>
     /// <param name="x">The X-coordinate in pixels of the top-left position of the sprite</param>
     /// <param name="y">The Y-coordinate in pixels of the top-left position of the sprite</param>
-    public void DrawSprite(Sprite sprite, short x, short y)
+    /// <param name="foreColor">The foreground color of the sprite (default = <see cref="Color.White"/></param>
+    /// <param name="backColor">The background color of the sprite (default = <see cref="Color.Black"/></param>
+    public void DrawSprite(Sprite sprite, short x, short y, in Color? foreColor = null, in Color? backColor = null)
     {
-        DrawSprite(_window.Pointer, x, y, _layer, sprite.ForeColor, sprite.BackColor, sprite.Pointer);
+        DrawSprite(_window.Pointer, x, y, _layer, foreColor.GetValueOrDefault(Color.White), backColor.GetValueOrDefault(Color.Black), sprite.Pointer);
     }
 
     [DllImport("procyon", EntryPoint = "procy_draw_sprite")]
