@@ -40,8 +40,6 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
     protected override void OnLoad()
     {
-        Window.GlyphScale = 2.0f;
-
         // initial state needs to have its .Load() call delayed until this point
         // so that by the time it's called by the native Window implementation,
         // it can make changes to the Window that won't be overridden at the start
