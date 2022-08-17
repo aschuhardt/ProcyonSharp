@@ -15,9 +15,9 @@ public class SpriteSheet : NativeObject
                 $"Failed to load spritesheet from {path}; most likely the maximum number of spritesheets was exceeded");
     }
 
-    public Sprite CreateSprite(short x, short y, short width, short height)
+    public Sprite CreateSprite(int x, int y, int width, int height)
     {
-        return new Sprite(this, x, y, width, height); 
+        return new Sprite(this, x, y, width, height);
     }
 
     protected override void Cleanup()

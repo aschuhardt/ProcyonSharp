@@ -165,7 +165,7 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
 
             return;
         }
-        
+
         CurrentState?.KeyPressed(key, mod);
 
         if (!_inputFunctions.ContainsKey(_currentState))

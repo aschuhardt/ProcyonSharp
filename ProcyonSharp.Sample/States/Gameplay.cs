@@ -32,9 +32,9 @@ public class Gameplay : GameState<SampleState>
         var (windowWidth, windowHeight) = Engine.Window.Size;
         var (spriteWidth, spriteHeight) = _cobblestone.Size;
         for (var i = 0; i < windowWidth / spriteWidth; i++)
-            ctx.DrawSprite(_cobblestone, (short)(i * spriteWidth), (short)(windowHeight - spriteHeight));
+            ctx.DrawSprite(_cobblestone, i * spriteWidth, windowHeight - spriteHeight);
 
-        ctx.DrawChar((short)_playerPosition.X, (short)_playerPosition.Y, Convert.ToByte('@'),
+        ctx.DrawChar(_playerPosition.X, _playerPosition.Y, Convert.ToByte('@'),
             foreColor: _playerGlyphColor);
 
         if (Engine.TextEntryActive)

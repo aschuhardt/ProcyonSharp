@@ -6,9 +6,8 @@ namespace ProcyonSharp;
 
 public abstract class GameState<T> : IGameState<T> where T : struct, Enum
 {
-    public Engine<T> Engine { get; set; } = null!;
-
     public Window Window => Engine?.Window;
+    public Engine<T> Engine { get; set; } = null!;
 
     public virtual void Load()
     {

@@ -21,8 +21,8 @@ public class Menu : GameState<SampleState>
         var (windowWidth, windowHeight) = Engine!.Window.Size;
 
         if (_text != null)
-            ctx.DrawString((short)(windowWidth / 2 - _text.Length * glyphWidth / 2),
-                (short)(windowHeight / 2 - glyphHeight / 2), _text);
+            ctx.DrawString(windowWidth / 2 - _text.Length * glyphWidth / 2,
+                windowHeight / 2 - glyphHeight / 2, _text);
     }
 
     [Input(Key.Enter)]
