@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Text;
 using ProcyonSharp.Attributes;
 using ProcyonSharp.Bindings;
@@ -21,7 +22,10 @@ public class Gameplay : GameState<SampleState>
 
     public override void Load()
     {
-        _cobblestone = new SpriteSheet(Engine.Window, "cobblestone.png").CreateSprite(0, 0, 16, 16);
+        _cobblestone = new SpriteSheet(Engine.Window, 
+            Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream("ProcyonSharp.Sample.cobblestone.png"))
+            .CreateSprite(0, 0, 16, 16);
         _playerPosition = (100, 100);
         _glyphSize = Engine.Window.GlyphSize;
         Engine.Window.ClearColor = Color.FromRgb(0.1f, 0.3f, 0.23f);
