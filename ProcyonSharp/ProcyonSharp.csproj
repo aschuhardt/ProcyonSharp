@@ -10,7 +10,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Platforms>x64</Platforms>
 		<Title>ProcyonSharp</Title>
-		<Version>1.2.5</Version>
+		<Version>1.2.6</Version>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/aschuhardt/ProcyonSharp</RepositoryUrl>
 		<PackageTags>roguelike engine tui opengl</PackageTags>

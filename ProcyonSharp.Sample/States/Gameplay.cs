@@ -9,7 +9,7 @@ using ProcyonSharp.TextEntry;
 namespace ProcyonSharp.Sample.States;
 
 [State(SampleState.Gameplay)]
-public class Gameplay : GameState<SampleState>
+public class Gameplay : ParameterizedGameState<SampleState, MessageText>
 {
     private readonly StringBuilder _enteredText = new("> press enter to toggle text entry");
 
@@ -22,12 +22,13 @@ public class Gameplay : GameState<SampleState>
 
     public override void Load()
     {
-        _cobblestone = new SpriteSheet(Engine.Window, 
-            Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("ProcyonSharp.Sample.cobblestone.png"))
+        _cobblestone = new SpriteSheet(Engine.Window,
+                Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("ProcyonSharp.Sample.cobblestone.png"))
             .CreateSprite(0, 0, 16, 16);
         _playerPosition = (100, 100);
         _glyphSize = Engine.Window.GlyphSize;
+        _enteredText.Append($" {Parameter.Text}");
         Engine.Window.ClearColor = Color.FromRgb(0.1f, 0.3f, 0.23f);
     }
 

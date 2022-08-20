@@ -28,6 +28,6 @@ public class Menu : GameState<SampleState>
     [Input(Key.Enter)]
     public void BeginGameplay()
     {
-        Engine?.PushState<Gameplay>();
+        Engine?.PushState<Gameplay, MessageText>(new MessageText {Text = "asdf"});
     }
 }

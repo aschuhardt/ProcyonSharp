@@ -64,6 +64,24 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
         return stateValue;
     }
 
+    public void PushState<U, V>(V parameter) where U : IParameterizedGameState<T, V>, new()
+    {
+        _currentState = GetStateValueFromType(typeof(U));
+        var newState = new U
+        {
+            Engine = this,
+            Parameter = parameter
+        };
+        newState.Load();
+        _stateStack.Push(newState);
+    }
+
+    public void ReplaceState<U, V>(V parameter) where U : IParameterizedGameState<T, V>, new()
+    {
+        _stateStack.Pop().Unload();
+        PushState<U, V>(parameter);
+    }
+
     public void PushState<U>() where U : IGameState<T>, new()
     {
         _currentState = GetStateValueFromType(typeof(U));
@@ -72,13 +90,21 @@ public class Engine<T> : NativeEventHandler where T : struct, Enum
         _stateStack.Push(newState);
     }
 
-    public void PopState()
+    public void ReplaceState<U>() where U : IGameState<T>, new()
     {
         _stateStack.Pop().Unload();
+        PushState<U>();
+    }
+
+    public IGameState<T> PopState()
+    {
+        var popped = _stateStack.Pop();
+        popped.Unload();
         if (!_stateStack.Any())
             Window.Close();
         else
             _currentState = GetStateValueFromType(_stateStack.Peek().GetType());
+        return popped;
     }
 
     /// <summary>
